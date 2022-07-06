@@ -15,18 +15,18 @@ class QuestionViewControllerTest: XCTestCase {
         XCTAssertEqual(makeSut(question: "Q1").headerLabel.text, "Q1")
     }
     
-    func test_viewDidLoad_withNoOptions_rendersOptions() {
+    func test_viewDidLoad_rendersOptions() {
         XCTAssertEqual(makeSut(options: []).tableView.numberOfRows(inSection: 0), 0)
         XCTAssertEqual(makeSut(options: ["A1"]).tableView.numberOfRows(inSection: 0), 1)
         XCTAssertEqual(makeSut(options: ["A1", "A2"]).tableView.numberOfRows(inSection: 0), 2)
     }
     
-    func test_viewDidLoad_withOneOption_rendersOptionsText() {
+    func test_viewDidLoad_rendersOptionsText() {
         XCTAssertEqual(makeSut(options: ["A1", "A2"]).tableView.title(at: 0), "A1")
         XCTAssertEqual(makeSut(options: ["A1", "A2"]).tableView.title(at: 1), "A2")
     }
     
-    func test_optionSelected_withTwoOptions_notifiesDelegateWithLastSelection() {
+    func test_optionSelected_withSingleSelection_notifiesDelegateWithLastSelection() {
         var receivedAnswers = [String]()
         let sut = makeSut(options: ["A1", "A2"]) {
             receivedAnswers = $0
@@ -37,6 +37,19 @@ class QuestionViewControllerTest: XCTestCase {
         
         sut.tableView.select(row: 1)
         XCTAssertEqual(receivedAnswers, ["A2"])
+    }
+    
+    func test_optionDeselected_withSingleSelection_doesNotNotifyDelegateWithEmptySelection() {
+        var callbackCount = 0
+        let sut = makeSut(options: ["A1", "A2"]) { _ in
+            callbackCount += 1
+        }
+        
+        sut.tableView.select(row: 0)
+        XCTAssertEqual(callbackCount, 1)
+        
+        sut.tableView.deselect(row: 0)
+        XCTAssertEqual(callbackCount, 1)
     }
     
     func test_optionSelected_withMultipleSelectionEnabled_notifiesDelegateSelection() {
