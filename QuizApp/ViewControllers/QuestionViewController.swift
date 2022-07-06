@@ -14,11 +14,11 @@ class QuestionViewController: UIViewController {
     
     private var question: String
     private let options: [String]
-    private var selection: (String) -> Void
+    private var selection: ([String]) -> Void
     
     private let reuseIdentifier: String = "Cell"
     
-    init(question: String, options: [String], selection: @escaping (String) -> Void) {
+    init(question: String, options: [String], selection: @escaping ([String]) -> Void) {
         self.question = question
         self.options = options
         self.selection = selection
@@ -50,8 +50,11 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-        selection(options[indexPath.row])
+        selection(selectedOptions(in: tableView))
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        selection(selectedOptions(in: tableView))
     }
     
     private func dequeueCell(in tableView: UITableView) -> UITableViewCell {
@@ -60,6 +63,11 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return UITableViewCell(style: .default, reuseIdentifier: reuseIdentifier)
+    }
+    
+    private func selectedOptions(in tableView: UITableView) -> [String] {
+        guard let indexPaths = tableView.indexPathsForSelectedRows else { return [] }
+        return indexPaths.map { options[$0.row] }
     }
     
 }
