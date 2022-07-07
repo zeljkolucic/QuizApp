@@ -20,7 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = QuestionViewController(question: "A question?", options: ["Option 1", "Option 2"]) { print($0) }
+        let viewController = ResultsViewController(summary: "You got 1/2 answer correct!", answers: [
+            PresentableAnswer(question: "Question 1?", answer: "Yeah!", wrongAnswer: nil),
+            PresentableAnswer(question: "Question 2?", answer: "Hell yeah!", wrongAnswer: "Hell no!")
+        ])
+        window?.rootViewController = viewController
+        
         window?.makeKeyAndVisible()
     }
 
