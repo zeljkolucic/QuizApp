@@ -1,5 +1,5 @@
 //
-//  ResultsViewControllerTests.swift
+//  ResultsViewControllerTest.swift
 //  QuizAppTests
 //
 //  Created by Željko Lučić on 7/7/22.
@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import QuizApp
 
-class ResultsViewControllerTests: XCTestCase {
+class ResultsViewControllerTest: XCTestCase {
     
     func test_viewDidLoad_renderSummary() {
         let sut = makeSut(summary: "Summary")

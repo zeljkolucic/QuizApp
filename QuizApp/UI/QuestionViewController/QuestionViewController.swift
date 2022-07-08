@@ -12,9 +12,9 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    private var question: String
-    private let options: [String]
-    private var selection: ([String]) -> Void
+    private(set) var question: String
+    private(set) var options: [String]
+    private(set) var selection: ([String]) -> Void
     
     private let reuseIdentifier: String = "Cell"
     
